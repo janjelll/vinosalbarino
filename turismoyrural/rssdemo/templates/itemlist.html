@@ -1,0 +1,4 @@
+{section name=x loop=4items} 
+<font face="Verdana" size="1">• {$items[x].pubdate|date_format:"%a, %b %e, %Y"} - 
+<a href="{$items[x].link}" target="_blank">{$items[x].title}</a>. {$items[x].description}<br></font> 
+{/section} 
