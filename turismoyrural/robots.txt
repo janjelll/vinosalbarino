@@ -1,0 +1,4 @@
+Sitemap: http://www.turismoyrural.com/sitemap.xml
+
+User-agent: *
+Disallow:

@@ -1,0 +1,5 @@
+<Files .htaccess>
+order allow,deny
+deny from all
+</Files>
+AddType application/x-httpd-php .php .php3 .phtml .html .htm
