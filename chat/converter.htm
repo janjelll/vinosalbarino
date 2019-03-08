@@ -1,0 +1,476 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>Swatch Internet Time Converter</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252"><LINK 
+href="images/link.css" type=text/css rel=stylesheet><LINK 
+href="images/fonts.css" type=text/css rel=stylesheet>
+<META content="I-D Media AG - www.I-DMedia.com" name=production>
+<META content="I-D Media AG - www.i-dmedia.com.com" name=author>
+<STYLE type=text/css>.mono1 {
+	FONT-SIZE: 12px; FONT-FAMILY: 'Courier New', Courier, monospace
+}
+</STYLE>
+
+<SCRIPT language=JavaScript type=text/javascript>
+<!--
+function wechsel() {
+if (top.navigation && top.logo2 && top.banner) {
+	if(top.navigation.tmp_fertig=="1") {
+	clearInterval(naviint);
+	top.navigation.uebergabe('itime','converter','1','000000');
+	 };
+	};
+};
+naviint=setInterval("wechsel()",100);
+wechsel();
+//-->
+</SCRIPT>
+
+<SCRIPT language=JavaScript>
+		<!--
+		var d = new Array(), l = new Array();
+		l[0] = new Array(1, -360, 1, "CHICAGO");
+		l[1] = new Array(1, -420, 1, "EDMONTON");
+		l[2] = new Array(1, -540, 1, "FAIRBANKS");
+		l[3] = new Array(1, -600, -1, "HONOLULU");
+		l[4] = new Array(1, -480, 1, "LOS ANGELES");
+		l[5] = new Array(1, -300, 1, "MONTREAL");
+		l[6] = new Array(1, -300, 1, "NEW YORK");
+		l[7] = new Array(1, -210, 1, "NEWFOUNDLAND");
+		l[8] = new Array(1, -540, 1, "NOME");
+		l[9] = new Array(1, -420, 1, "SALT LAKE CITY");
+		l[10] = new Array(1, -480, 1, "SAN FRANCISCO");
+		l[11] = new Array(1, -480, 1, "SEATTLE");
+		l[12] = new Array(1, -300, 1, "TORONTO");
+		l[13] = new Array(1, -480, 1, "VANCOUVER");
+		l[14] = new Array(1, -300, 1, "WASHINGTON DC");
+
+		l[15] = new Array(2, -240, -1, "BARBADOS");
+		l[16] = new Array(2, -240, 1, "BERMUDA");
+		l[17] = new Array(2, -300, -1, "KINGSTON");
+		l[18] = new Array(2, -360, 1, "MEXICO CITY");
+		l[19] = new Array(2, -300, 1, "NASSAU");
+		l[20] = new Array(2, -240, -1, "SAN JUAN");
+		l[21] = new Array(2, -240, -1, "SANTO DOMINGO");
+		l[22] = new Array(2, -119, -1, "SUEDSANDWICH ISLANDS");
+
+		l[23] = new Array(3, -300, -1, "BOGOTA");
+		l[24] = new Array(3, -180, -1, "BUENOS AIRES");
+		l[25] = new Array(3, -300, 2, "HAVANA");
+		l[26] = new Array(3, -300, -1, "LIMA");
+		l[27] = new Array(3, -180, 3, "RIO DE JANEIRO");
+		l[28] = new Array(3, -240, 4, "SANTIAGO");
+		l[29] = new Array(3, -180, 3, "SAO PAULO");
+
+		l[30] = new Array(4, 60, 5, "AMSTERDAM"); //MEZ
+		l[31] = new Array(4, -60, 5, "AZORES");
+		l[32] = new Array(4, 60, 5, "BARCELONA");
+		l[33] = new Array(4, 60, 5, "BELGRADE");
+		l[34] = new Array(4, 60, 5, "BIEL");
+		l[35] = new Array(4, 60, 5, "BERLIN");
+		l[36] = new Array(4, 119, 6, "BUCHAREST");
+		l[37] = new Array(4, 60, 5, "BUDAPEST");
+		l[38] = new Array(4, 60, 5, "COPENHAGEN");
+		l[39] = new Array(4, 0, 5, "DUBLIN");
+		l[40] = new Array(4, 60, 5, "GIBRALTAR");
+		l[41] = new Array(4, 0, 5, "GLASGOW");
+		l[42] = new Array(4, 60, 5, "HAMBURG");
+		l[43] = new Array(4, 119, 5, "HELSINKI"); // 60 war 120
+		l[44] = new Array(4, 119, 5, "ISTANBUL"); 
+		l[45] = new Array(4, 0, 5, "LONDON");
+		l[46] = new Array(4, 60, 5, "MADRID");
+		l[47] = new Array(4, 180, 5, "MOSCOW");
+		l[48] = new Array(4, 60, 5, "OSLO");
+		l[49] = new Array(4, 60, 5, "PARIS");
+		l[50] = new Array(4, 60, 5, "PRAGUE");
+		l[51] = new Array(4, 0, -1, "REYKJAVIK");
+		l[52] = new Array(4, 60, 5, "ROME");
+		l[53] = new Array(4, 60, 5, "STOCKHOLM");
+		l[54] = new Array(4, 60, 5, "VIENNA");
+		l[55] = new Array(4, 0, -1, "UTC/GMT");
+
+		l[56] = new Array(5, 119, 7, "CAIRO");
+		l[57] = new Array(5, 240, -1, "ILSAMABAD");
+		l[58] = new Array(5, 119, -1, "JOHANNESBURG");
+		l[59] = new Array(5, -60, -1, "KAP VERDE");
+		l[60] = new Array(5, 60, -1, "LAGOS");
+		l[61] = new Array(5, 240, -1, "MAURITIUS");
+		l[62] = new Array(5, 180, -1, "NAIROBI");
+		l[63] = new Array(5, 240, -1, "SEYCHELLES");
+		l[64] = new Array(5, 60, 8, "WINDHOEK");
+
+		l[65] = new Array(6, 240, -1, "ABU DHABI");
+		l[66] = new Array(6, 180, -1, "BAHRAIN");
+		l[67] = new Array(6, 420, -1, "BANGKOK");
+		l[68] = new Array(6, 119, 5, "BEIRUT");
+		l[69] = new Array(6, 480, -1, "BEIJING");
+		l[70] = new Array(6, 330, -1, "BOMBAY");
+		l[71] = new Array(6, 330, -1, "CALCUTTA");
+		l[72] = new Array(6, 240, -1, "DUBAI");
+		l[73] = new Array(6, 360, -1, "DHAKA");
+		l[74] = new Array(6, 720, -1, "FIJI ISLANDS");
+		l[75] = new Array(6, 480, -1, "HONG KONG");
+		l[76] = new Array(6, 420, -1, "JAKARTA");
+		l[77] = new Array(6, 119, 9, "JERUSALEM");
+		l[78] = new Array(6, 345, -1, "KATMANDU");
+		l[79] = new Array(6, 480, -1, "KUALA LUMPUR");
+		l[80] = new Array(6, 180, -1, "KUWAIT CITY");
+		l[81] = new Array(6, 480, -1, "MANILA");
+		l[82] = new Array(6, 330, -1, "NEW DELHI");
+		l[83] = new Array(6, 600, -1, "NEW GUINEA");
+		l[84] = new Array(6, 240, -1, "OMAN");
+		l[85] = new Array(6, 660, -1, "PALIKIR");
+		l[86] = new Array(6, 540, -1, "PAPUA NEUGINEA");
+		l[87] = new Array(6, 390, -1, "RANGOON");
+		l[88] = new Array(6, 180, -1, "RIYADH");
+		l[89] = new Array(6, 660, -1, "SALOMONEN");
+		l[90] = new Array(6, 540, -1, "SEOUL");
+		l[91] = new Array(6, 480, -1, "SINGAPORE");
+		l[92] = new Array(6, 210, 10, "TEHRAN");
+		l[93] = new Array(6, 360, -1, "THIMBU");
+		l[94] = new Array(6, 540, -1, "TOKYO");
+
+		l[95] = new Array(7, 570, 11, "ADELAIDE");
+		l[96] = new Array(7, 720, 12, "AUCKLAND");
+		l[97] = new Array(7, 600, -1, "BRISBANE");
+		l[98] = new Array(7, 765, 12, "CHATHAM ISLAND");
+		l[99] = new Array(7, 570, -1, "DARWIN");
+		l[100] = new Array(7, 600, 11, "MELBOURNE");
+		l[101] = new Array(7, 480, -1, "PERTH");
+		l[102] = new Array(7, 600, 11, "SYDNEY");
+
+// continue with 103
+
+//DAYLIGHT SAVING TIME
+//usa 			1st Sunday in april - last Sunday in october
+d[1] = new Array(2005,4,4,2005,10,31,2006,4,2,2006,10,29,2007,4,1,2007,10,28,2008,4,7,2008,10,27,2009,4,6,2009,10,26,2010,4,4,2010,10,31);
+//cuba 			April 1st - last Sunday in october
+d[2] = new Array(2005,3,14,2005,10,10,2006,4,1,2006,10,29,2007,4,1,2007,10,28,2008,4,1,2008,10,27,2009,4,1,2009,10,26,2010,4,1,2010,10,31);
+//brasil 		first Sunday october - last Sunday february
+d[3] = new Array(1998,10,11,2005,2,21,2005,10,11,2006,2,27,2006,10,1,2007,2,24,2007,10,7,2008,2,24,2008,10,6,2009,2,23,2009,10,5,2010,2,29,2010,10,3);
+//chile 		2nd Saturday october - 2nd Saturday march
+d[4] = new Array(2005,3,13,2005,10,9,2006,3,11,2006,10,14,2007,3,10,2007,10,13,2008,3,9,2008,10,12,2009,3,8,2009,10,11,2010,3,13,2010,10,9);
+//europe 		last Sunday march - last Sunday october
+d[5] = new Array(2005,3,28,2005,10,31,2006,3,26,2006,10,29,2007,3,25,2007,10,28,2008,3,31,2008,10,27,2009,3,30,2009,10,26,2010,3,28,2010,10,31);
+//romania 		last Sunday march - last Sunday october (was last sunday september)
+d[6] = new Array(2005,3,28,2005,9,26,2006,3,26,2006,9,24,2007,3,25,2007,9,30,2008,3,31,2008,10,27,2009,3,30,2009,10,26,2010,3,28,2010,10,31);
+//egypt 		last Friday april - last Friday september
+d[7] = new Array(2005,5,1,2005,10,1,2006,5,1,2006,10,1,2007,5,1,2007,10,1,2008,4,26,2008,9,27,2009,3,28,2009,9,26,2010,3,26,2010,9,24);
+//namibia 		1st Sunday april - 1st Sunday september
+d[8] = new Array(2005,4,4,2005,9,5,2006,4,2,2006,9,3,2007,4,1,2007,9,2,2008,4,7,2008,9,1,2009,4,6,2009,9,7,2010,4,4,2010,9,5);
+//israel 		different sources, 1st friday april - 1st friday september
+d[9] = new Array(2005,3,20,2005,9,6,2006,4,7,2006,8,31,2007,4,8,2007,9,23,2008,4,5,2008,9,6,2009,4,4,2009,9,5,2010,4,2,2010,9,3);
+//iran 			first day of Farvardin - first day of Mehr
+d[10] = new Array(2005,3,21,2005,9,23,2006,3,19,2006,9,21,2007,3,20,2007,9,22,2008,3,21,2008,9,22,2009,3,20,2009,9,21,2010,3,19,2010,9,19);
+//australia South, Victoria, Capital Territory, New South Wales, Lord Howe Island
+//				last Sunday in October - Last Sunday March
+d[11] = new Array(2005,3,28,2005,10,31,2006,3,26,2006,10,29,2007,3,25,2007,28,2008,3,31,2008,10,27,2009,3,30,2009,10,26,2010,3,28,2010,10,31);
+//australia new zealand, chatham
+d[12] = new Array(2005,3,21,2005,10,3,2006,3,18,2006,10,1,2007,3,1,2007,10,1,2008,3,3,2008,10,6,2009,3,16,2009,10,5,2010,3,21,2010,10,3);
+
+
+
+		function fz(c)
+		{
+			if (c <= 9)
+				c = "0" + c;
+			return c;
+		}
+		
+        /** di = current number of Daylight saving data d[di]
+        *   at = timestampe */
+		function isSummertime(di, at) {
+			if (di != -1)
+			{
+                for (i=0;i<d[di].length;i++) {
+                    jahr=d[di][i];
+                    i++;
+                    monat=d[di][i];
+                    i++;
+                    tag=d[di][i];
+                    beginDS=new Date(jahr,monat-1,tag);
+                    
+                    i++;
+                    jahr=d[di][i];
+                    i++;
+                    monat=d[di][i];
+                    i++;
+                    tag=d[di][i];
+                    endDS=new Date(jahr,monat-1,tag);
+                    
+                    if (at>=beginDS && at<=endDS) return true;
+                }
+			}
+			return false;
+		}
+
+//######################################################################################################################################
+		
+		function calculateInternetTime()
+		{
+ 			// Leer Eintraege abfangen
+			if (document.iTimeForm.minutes.value == "" ||
+			document.iTimeForm.minutes.value == " " || document.iTimeForm.minutes.value
+			== "  ")
+			document.iTimeForm.minutes.value = "00";
+			if (document.iTimeForm.seconds.value == "" ||
+			document.iTimeForm.seconds.value == " " || document.iTimeForm.seconds.value
+			== "  ")
+		    document.iTimeForm.seconds.value = "00";
+
+			// Variablen auslesen
+			var location = document.locationForm.locations.options[Math.max(0, document.locationForm.locations.selectedIndex)].value;
+			var h = parseInt(document.iTimeForm.hours.value, 10);
+			var m = parseInt(document.iTimeForm.minutes.value, 10);
+			var s = parseInt(document.iTimeForm.seconds.value, 10);
+			var day = parseInt(document.iTimeForm.day.value, 10);
+			var month = parseInt(document.iTimeForm.month.value, 10);
+			var year = parseInt(document.iTimeForm.year.options[document.iTimeForm.year.selectedIndex].value, 10);
+
+			var c = l[location][0];
+			var mo = l[location][1];
+			var di = l[location][2];
+			var td = new Date(year,month - 1,day, h, m, s);
+			var at = td.getTime();
+			
+
+			// Sommerzeit?
+			if (isSummertime(di, at))
+					mo += 60;
+			
+			// Berechnung der Internet Time
+			if ((h < 0) || (h > 23) || (m < 0) || (m > 60) || (s < 0) || (s > 60))
+			{
+				alert("Wrong time format!");
+				return;
+			}
+			 if ((day < 0) || (day > 31) || (month < 0) || (month > 12))
+			{
+				alert("Wrong date format!");
+				return;
+			}
+			at += (-mo * 60000);
+			var iTime = Math.floor((h * 3600 + ((m - mo + 60) * 60) + s) * 1000 / 86400);
+			if (iTime >= 1000)
+				iTime -= 1000;
+			else if (iTime < 0)
+				iTime += 1000;
+			var ad = new Date(at);
+			temp_year = ad.getFullYear();
+			// temp_year = 1900 + temp_year;  uncommented, 3900 as year results
+         
+			var date = "" + fz(ad.getDate()) + "." + fz(ad.getMonth() + 1) + "." + temp_year;
+			
+			// Internet Time und Datum ausgeben
+			document.iTimeForm.iTime.value = iTime;
+			document.iTimeForm.date.value = date;
+		}
+
+//######################################################################################################################################		
+
+		function calculateStandardTime()
+		{
+			var location = document.locationForm.locations.options[Math.max(0, document.locationForm.locations.selectedIndex)].value;
+			var iTime = parseInt(document.sTimeForm.iTime.value, 10);
+			var day = parseInt(document.sTimeForm.day.value, 10);
+			var month = parseInt(document.sTimeForm.month.value, 10);
+			var year = parseInt(document.sTimeForm.year.options[document.sTimeForm.year.selectedIndex].value, 10);
+	
+			var c = l[location][0];
+			var mo = l[location][1];
+			var di = l[location][2];
+			var td = new Date(year,month - 1,day);
+			var at = td.getTime();
+			
+			// Sommerzeit?
+			if (isSummertime(di, at))
+					mo += 60;
+
+			// Berechnung der Standard Time
+			if (iTime < 0)
+			{
+				alert("Wrong time format!");
+				return;
+			}
+			if ((day < 0) || (day > 31) || (month < 0) || (month > 12))
+			{
+				alert("Wrong date format!");
+				return;
+			}
+			var millis1 = iTime * 86400 + (mo - 60) * 60000;
+			var millis2 = millis1 + 86400;
+			var d1 = new Date ((new Date(year, month - 1, day)).getTime() + millis1);
+			var d2 = new Date ((new Date(year, month - 1, day)).getTime() + millis2);
+
+			var temp_year = d1.getFullYear();
+			// temp_year = 1900 + temp_year; gives 3900 as year
+						
+			var date = "" + fz(d1.getDate()) + "." + fz(d1.getMonth() + 1) + "." + temp_year;
+			var time1 = fz(d1.getHours()) + ":" + fz(d1.getMinutes()) + ":" + fz(d1.getSeconds());
+			var time2 = fz(d2.getHours()) + ":" + fz(d2.getMinutes()) + ":" + fz(d2.getSeconds());
+			document.sTimeForm.sTime1.value = time1;
+			document.sTimeForm.sTime2.value = time2;
+			document.sTimeForm.date.value = date;
+		}
+
+//######################################################################################################################################			
+		
+		function fillPopup(continent)
+		{
+			// Popup vorbelegen
+			document.locationForm.locations.length = 0;
+			for (i = 0, n = 0; i < l.length; i++)
+			{
+				if (l[i][0] == continent)
+				{
+					document.locationForm.locations.length++;
+					document.locationForm.locations.options[n].text = l[i][3];
+					document.locationForm.locations.options[n++].value = i;
+				}
+			}
+			document.locationForm.locations.selectedIndex = 0;
+		}
+				
+		function init()
+		{
+			// Felder vorbelegen
+			var md = new Date();
+			document.iTimeForm.day.value = fz(md.getDate());
+			document.iTimeForm.month.value = fz(md.getMonth() + 1);
+			if (md.getFullYear() == 98)
+			{
+				document.iTimeForm.year.selectedIndex = 0;
+				document.sTimeForm.year.selectedIndex = 0;
+			}
+			if (md.getFullYear() == 99)
+			{
+				document.iTimeForm.year.selectedIndex = 1;
+				document.sTimeForm.year.selectedIndex = 1;
+			}
+			document.sTimeForm.day.value = fz(md.getDate());
+			document.sTimeForm.month.value = fz(md.getMonth() + 1);
+			fillPopup(1);
+		}
+		// -->
+		</SCRIPT>
+
+<META content="MSHTML 6.00.2900.2627" name=GENERATOR>
+<script LANGUAGE="JavaScript1.1">
+function derecha(e) {
+if (navigator.appName == 'Netscape' && (e.which == 3 || e.which == 2)){
+alert('Sorry, cannot use it / Inhabilitado. Disculpe')
+return false;
+}
+
+else if (navigator.appName == 'Microsoft Internet Explorer' && (event.button == 2)){
+alert('Sorry, cannot use it / Inhabilitado. Disculpe')
+}
+}
+document.onmousedown=derecha
+</script>
+</HEAD>
+<BODY text=white vLink=#ff0000 aLink=#ff0000 link=#ff0000 bgColor=black 
+onload=init();>
+<CENTER>
+<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=bottom align=middle colSpan=3><IMG alt="" 
+      src="images/bn_choose_black.gif" border=0><SPAN 
+      class=font-10>&nbsp;&nbsp;continent and location: <!-- kleine table oben-->
+      <FORM name=locationForm>
+      <TABLE cellSpacing=2 cellPadding=2 border=0>
+        <TBODY>
+        <TR>
+          <TD align=middle><SPAN class=font-10>Continent: <SELECT 
+            onchange=fillPopup(document.locationForm.continent.options[document.locationForm.continent.selectedIndex].value); 
+            name=continent> <OPTION value=1 selected>North America<OPTION 
+              value=2>Central America<OPTION value=3>South America<OPTION 
+              value=4>Europe<OPTION value=5>Africa<OPTION value=6>Asia<OPTION 
+              value=7>Australia</OPTION></SELECT></SPAN></TD>
+          <TD align=middle><SPAN 
+            class=font-10>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Location: <SELECT 
+            size=1 name=locations> <OPTION 
+              selected>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<OPTION>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<OPTION>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<OPTION>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<OPTION>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<OPTION>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</OPTION></SELECT></SPAN></TD></TR></TBODY></TABLE></FORM></SPAN></TD></TR>
+  <TR>
+    <TD vAlign=top align=middle><SPAN class=font-10><FONT 
+      color=#ff0000>Internet Time from Standard Time:</FONT> <!-- tabelle i time from standard time -->
+      <FORM name=iTimeForm onsubmit="calculateInternetTime(); return false;" 
+      method=post>
+      <TABLE cellSpacing=2 cellPadding=2 border=0>
+        <TBODY>
+        <TR>
+          <TD align=right width=135><IMG 
+            src="images/bn_enter_black.gif"> &nbsp;<SPAN 
+            class=font-10>Time [24h]:</SPAN></TD>
+          <TD class=mono1><INPUT class=mono1 maxLength=2 size=2 value=12 
+            name=hours>:<INPUT class=mono1 maxLength=2 size=2 value=00 
+            name=minutes>:<INPUT class=mono1 maxLength=2 size=2 value=00 
+            name=seconds></TD></TR>
+        <TR vAlign=top>
+          <TD align=right><SPAN class=font-10>Date:</SPAN></TD>
+          <TD><SPAN class=mono1><INPUT class=mono1 maxLength=2 size=2 value=01 
+            name=day>.<INPUT class=mono1 maxLength=2 size=2 value=01 
+            name=month>.<BR><SELECT class=mono1 size=1 name=year> 
+			<OPTION 
+              class=mono1 value=2005 selected>2005</OPTION> <OPTION class=mono1 
+              value=2006>2006</OPTION> <OPTION class=mono1 
+              value=2007>2007</OPTION> <OPTION class=mono1 value=2008>2008</OPTION> <OPTION class=mono1 
+              value=2009>2009</OPTION> <OPTION class=mono1 
+              value=2010>2010</OPTION></SELECT></SPAN></TD></TR>
+        <TR>
+          <TD align=middle colSpan=2>
+            <P>
+			<INPUT type=image src="images/calculate.gif" 
+            border=0 name=calc_internettime width="89" height="18"><BR></P></TD></TR>
+        <TR>
+          <TD class=mono1 vAlign=center align=right>
+            <P><SPAN class=font-10>Internet Time @</SPAN></P></TD>
+          <TD><INPUT class=mono1 readOnly maxLength=3 size=3 value=--- 
+            name=iTime></TD></TR>
+        <TR>
+          <TD vAlign=center align=right><SPAN class=font-10>Date:</SPAN></TD>
+          <TD><SPAN class=font-10><INPUT class=mono1 readOnly maxLength=10 
+            size=10 value=--.--.---- 
+name=date></SPAN></TD></TR></TBODY></TABLE></FORM><!-- ende table i time from standard time --></SPAN></TD>
+    <TD><IMG height=188 src="images/line.gif" width=1 border=0></TD>
+    <TD align=middle width="50%"><SPAN class=font-10><FONT 
+      color=#ff0000>Standard Time from Internet Time:</FONT> <!-- table standard time from i time -->
+      <FORM name=sTimeForm onsubmit="calculateStandardTime(); return false;" 
+      method=post>
+      <TABLE cellSpacing=2 cellPadding=2 border=0>
+        <TBODY>
+        <TR vAlign=top>
+          <TD align=right width=150><IMG alt="" 
+            src="images/bn_enter_black.gif" border=0> &nbsp;<SPAN 
+            class=font-10>Internet Time @</SPAN></TD>
+          <TD class=mono1><INPUT class=mono1 maxLength=3 size=3 value=500 
+            name=iTime></TD></TR>
+        <TR vAlign=top>
+          <TD align=right><SPAN class=font-10>Date:</SPAN></TD>
+          <TD class=mono1><INPUT class=mono1 maxLength=2 size=2 
+            name=day>.<INPUT class=mono1 maxLength=2 size=2 
+            name=month>.<BR><SELECT class=mono1 size=1 name=year> 
+			<OPTION 
+              class=mono1 value=2005 selected>2005</OPTION> <OPTION class=mono1 
+              value=2006>2006</OPTION> <OPTION class=mono1 
+              value=2007>2007</OPTION> <OPTION class=mono1 value=2008>2008</OPTION> <OPTION class=mono1 
+              value=2009>2009</OPTION> <OPTION class=mono1 
+              value=2010>2010</OPTION></SELECT></TD></TR>
+        <TR>
+          <TD align=middle colSpan=2>
+            <P><SPAN class=font-10>
+			<INPUT type=image 
+            src="images/calculate.gif" border=0 
+            name=calc_standard width="89" height="18"></SPAN></P></TD></TR>
+        <TR vAlign=top>
+          <TD align=right><SPAN class=font-10>Standard Time:</SPAN></TD>
+          <TD class=font-10><INPUT class=mono1 readOnly maxLength=8 size=8 
+            value=--:--:-- name=sTime1> to<BR><INPUT class=mono1 readOnly 
+            maxLength=8 size=8 value=--:--:-- name=sTime2> </TD></TR>
+        <TR>
+          <TD vAlign=center align=right width=135><SPAN 
+            class=font-10>Date:</SPAN></TD>
+          <TD><SPAN class=font-10><INPUT class=mono1 readOnly maxLength=10 
+            size=10 value=--.--.---- name=date></SPAN></TD></TR></TBODY></TABLE><!-- ende table standard time from i time --></FORM></SPAN></TD></TR>
+  </TBODY></TABLE></CENTER><IMG height=1 
+src="images/converter.gif" width=1><BR></BODY></HTML>

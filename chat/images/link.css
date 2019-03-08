@@ -1,0 +1,27 @@
+A:link {
+	TEXT-DECORATION: none
+}
+A:visited {
+	TEXT-DECORATION: none
+}
+A:hover {
+	TEXT-DECORATION: none
+}
+A:active {
+	TEXT-DECORATION: none
+}
+P {
+	
+}
+A.dada-events:link {
+	FONT-SIZE: 13px; COLOR: #000000; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; TEXT-DECORATION: underline
+}
+A.dada-events:visited {
+	FONT-SIZE: 13px; COLOR: #000000; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; TEXT-DECORATION: underline
+}
+A.dada-events:hover {
+	FONT-SIZE: 13px; COLOR: #000000; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; TEXT-DECORATION: underline
+}
+A.dada-events:active {
+	FONT-SIZE: 13px; COLOR: #000000; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; TEXT-DECORATION: underline
+}
