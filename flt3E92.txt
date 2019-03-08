@@ -1,0 +1,446 @@
+#!/usr/bin/perl
+
+$path_to_sendmail = "/usr/lib/sendmail";
+$email_field = "email";
+$use_autoresponse = "No";
+$autoresponse_message = "";
+$showconfirmation = "No";
+$usecustomthankyou = "Yes";
+
+$htmlheader = "";
+
+print "Content-type: text/html\n\n";
+%data=&get_data();
+@fields = sort(keys(%data));
+foreach $field (@fields){
+  	$len1 = sprintf("%3s", length($field));
+  	$len1 =~ s/\D/0/g;
+  	$lengths[$#lengths + 1] = $len1;
+  	}
+
+@lengths = sort(@lengths);
+$longest = $lengths[$#lengths];
+
+ $toemail = "mail\@full-mobile.com";
+ $fromemail = "mail\@full-mobile.com";
+ if($data{$email_field}){
+ 	$replytoemail = $data{$email_field};
+	}
+ else {
+ 	$replytoemail = $fromemail;
+	}
+ if($data{'Asunto'} ne ""){
+	$subject = $data{'Asunto'};
+	}
+ else {
+ 	$subject = "Message from web form: $ENV{'HTTP_REFERER'}";
+	}
+ $subject =~ s/\s+/ /sg;
+ $subject =~ s/\0/ /sg;
+ $subject .= "\n\n";
+
+ $message = "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n";
+  $message .= "The user sending this message was logged on to the following address:\n";
+ $message .= " $ENV{'REMOTE_ADDR'} $ENV{'REMOTE_HOST'}\n";
+ $message .= " Timestamp: " . localtime() . "\n";
+ $message .= "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
+ $message .= "\n\n";
+
+  if($showconfirmation eq "Yes"){
+	$confirmation = "<table border=1 cellpadding=2 cellspacing=0>
+	<tr><td colspan=2><b>The following is the information you submitted:</b></td></tr>\n";
+	}
+
+foreach $field (@fields){
+  if($field eq "FA" || $field eq "owneremail" || 
+      $field eq "BodyTag" ||
+      $field eq "Submit" ||
+      $field eq "required" ||
+      $field eq "Message"){
+     next;
+     }
+  $show = $field;
+  $show =~ s/^\d\d//g;
+  $show =~ s/_/ /g;
+  $longest = $longest * 1;
+  $len = "% ".$longest."s";
+  $show = sprintf("$len", $show);
+  $message .= "$show: $data{$field}\n";
+  if($showconfirmation eq "Yes"){
+  	$confirmation .= "<tr><td><b>$show</b></td><td>$data{$field}</td></tr>\n";
+	}
+  }
+  
+  if($showconfirmation eq "Yes"){
+	$confirmation .= "<tr><td valign=top><b>Message</b></td><td>$data{'Message'}</td></tr>";
+	$confirmation .= "</table>\n";
+	}
+
+  $message .= "\nMessage:\n\n$data{'Message'}\n";
+  foreach $msgline (split(/\n/, $message)){
+  	$msgline =~ s/^cc:/ X-abused-cc: /isg;
+  	$msgline =~ s/^bcc:/ X-abused-bcc: /isg;
+  	$msgline =~ s/^to:/ X-abused-to: /isg;
+  	$msgline =~ s/^from:/ X-abused-from: /isg;
+  	$msgline =~ s/^reply-to:/ X-abused-reply-to: /isg;
+  	$msgline =~ s/^subject:/ X-abused-subject: /isg;
+  	$msgline =~ s/^Received:/ X-abused-received: /isg;
+	$newmsg .= "$msgline\n";
+	}
+   $message = $newmsg;
+  # Do the Autoresponse, if any
+  if($replytoemail ne $fromemail && $use_autoresponse eq "Yes" && 
+     $autoresponse_message ne ""){
+     &send_mail($replytoemail,$replytoemail,$fromemail,$fromemail,$fromemail,
+             $fromemail,"Thank you for your email",$autoresponse_message,
+             '',
+             '',
+             'unix', '',$smtp_auth,
+	     $pop_un,$pop_pw);
+	}
+  # Send the mail to you
+  &send_mail($toemail,"Webmaster",$fromemail,"$replytoemail (AutoCGIMail)",$replytoemail,
+             $replytoemail,$subject,$message,
+             '',
+             '',
+             'unix', '',$smtp_auth,
+	     $pop_un,$pop_pw);
+
+  $data{'BodyTag'} =~ s/&lt;/\</g;
+  $data{'BodyTag'} =~ s/&gt;/\>/g;
+  $data{'BodyTag'} =~ s/&quot;/\"/g;
+
+  if($usecustomthankyou eq "No"){
+  	print "$htmlheader
+	  $data{'BodyTag'}
+	  <font size=+1>Thank you.  Your message has been sent.<br><br>
+	  $confirmation<br> ";
+  	  
+	print "<hr><a href=\"javascript:history.back();\">Back...</a>";
+	  
+  	exit();
+	}
+  else {
+	$htmlheader =~ s/<\/head>/<meta HTTP-EQUIV=Refresh Content=\"0;URL=http:\/\/www.full-mobile.com\/gracias.htm\">\n<\/head>/is;
+	if($htmlheader !~ /<\/head>/i){
+		$htmlheader .= "<head>\n<META HTTP-EQUIV=Refresh Content=\"0;URL=http://www.full-mobile.com/gracias.htm\">\n</head>";
+		}
+  	print "$htmlheader
+	  $data{'BodyTag'}
+	  <font size=+1>Gracias. Su mensaje fue enviado.<br>
+<i>Thank you. Your message has been sent.</i><br>
+	  $confirmation<br> ";
+  	  
+	print "<hr><a href=\"javascript:history.back();\">Regresar (Back)...</a>";
+	  
+  	 print " </font>$htmlfooter";
+  	exit();
+	}
+
+sub check_email {
+
+ my $email = $_[0];
+ if($email !~ /(.{1,})(\@)(.{1,})(\.)(.{2,})/ ||
+    $email =~ /,/ || $email =~ /.*\@.*\@/ || $email =~ /\@\@/ || 
+    $email =~ /\s/ || $email =~ /\.$/ || $email =~ /\@\./){
+    return "El email introducido tiene un formato incorrecto.<br>
+<i>Email address is not a valid email address.</i><br><br>";
+    }
+  
+}
+
+#&send_mail("to_email","to_name","from_email","from_name","replyto_email",
+#               "replyto_name","subject","message","mail_server_hostname",
+#              "this_server_hostname",$opsys,$htmlmail,$smtp_auth,
+#               $pop_un,$pop_pw);
+sub send_mail {
+   local($toemail,$toname,$fromemail,$fromname,
+         $replytoemail,$replytoname,$subject,
+         $message,$mail_server_hostname,$this_server_hostname,$opsys,
+         $htmlmail,$smtp_auth,$pop_un,$pop_pw) = @_;
+  my($boundary) = crypt("blah",time.$$).time.$$;
+  my($testaddr);
+  foreach $testaddr (split(/,/, "toemail,toname,fromemail,fromname,replytoemail,replytoname,subject")) {
+        ${$testaddr} =~ s/\0//sg;
+        ${$testaddr} =~ s/\r//sg;
+        ${$testaddr} =~ s/\n//sg;
+        ${$testaddr} =~ s/\r\n//sg;
+        ${$testaddr} =~ s/\015//sg;
+        ${$testaddr} =~ s/\012//sg;
+        ${$testaddr} =~ s/\015\012//sg;
+        ${$testaddr} =~ s/\s+/ /sg;
+        }
+
+if($opsys eq "win"){
+   my($port,$child,$proto);
+
+   # Switch to $auth_from_address if there is one.
+   if(($smtp_auth eq "POP" || $smtp_auth eq "SMTP") &&
+      $auth_from_address){ 
+      $fromemail = $auth_from_address; 
+      }
+   # Do pop-before-smtp auth if necessary.
+   if($smtp_auth eq "POP"){ 
+     &do_pop_auth($this_server_hostname,$mail_server_hostname,$pop_un,$pop_pw); 
+     }
+   $CRLF = "\015\012"; # Make sure we have the correct line endings
+   $message =~ s/\r\n/\n/sg;
+   $message =~ s/\r/\n/sg;
+   $message =~ s/\n/$CRLF/sg;
+   my $port = 25;
+   use Socket;
+
+   $SIG{'INT'} = 'dokill';
+   sub dokill {
+       kill 9,$child if $child;
+   }
+
+
+   my $proto = 6; # tcp
+
+   $this = pack_sockaddr_in(0, inet_aton($this_server_hostname));
+   $that = pack_sockaddr_in($port, inet_aton($mail_server_hostname));
+   
+   if (socket(S, AF_INET, SOCK_STREAM, $proto)) {
+       &debug("Created socket.");
+   }
+   else { &debug("Could not create socket for mail: $!"); }
+
+   if (connect(S,$that)) {
+       &debug("Connected to socket.");
+   }
+   else { &debug("Could not connect to socket: $!"); }
+
+   # Unbuffer the output for socket and stdout
+   select(S); $| = 1; select(STDOUT); $| = 1;
+   &debug("Server responded: " . read_response()) if $no_more !=1;
+   # SMTP auth is done in the same socket connection, so let's do it now.
+   if($smtp_auth eq "SMTP"){ 
+       &do_smtp_auth($pop_un,$pop_pw); 
+       }
+   # We don't need HELO with SMTP auth because we already did EHLO
+   else { 
+      &debug("I sent: HELO $this_server_hostname\\r\\n") if $no_more !=1;
+      print S "HELO $this_server_hostname$CRLF";
+      &debug("Server responded: " . read_response()) if $no_more !=1;
+      }
+   &debug("I sent: MAIL FROM:<$fromemail>\\r\\n") if $no_more !=1;
+   print S "MAIL FROM:<$fromemail>$CRLF";
+   &debug("Server responded: " . read_response()) if $no_more !=1;
+   &debug("I sent: RCPT TO:<$toemail>\\r\\n") if $no_more !=1;
+   print S "RCPT TO:<$toemail>$CRLF";
+   &debug("Server responded: " . read_response()) if $no_more !=1;
+   &debug("I sent: DATA\\r\\n") if $no_more !=1;
+   print S "DATA$CRLF";
+   &debug("Server responded: " . read_response()) if $no_more !=1;
+   &debug("I sent: To: $toname <$toemail>\\r\\n") if $no_more !=1;
+   print S "To: $toname <$toemail>$CRLF";
+   &debug("I sent: From: $fromname <$fromemail>\\r\\n") if $no_more !=1;
+   print S "From: $fromname <$fromemail>$CRLF";
+   if($replytoemail ne ""){
+      &debug("I sent: Reply-to: $replytoname <$replytoemail>\\r\\n") if $no_more !=1;
+      print S "Reply-to: $replytoname <$replytoemail>$CRLF";
+      }
+   if(!$x_auth_header){ $x_auth_header = "X-Auth-Type: None"; }
+   print S "$x_auth_header$CRLF";
+   print S "X-Mailer: $0 http://tesol.net/scripts/$CRLF";
+   &debug("I sent: Subject: $subject\\r\\n") if $no_more !=1;
+   print S "Subject: $subject$CRLF";
+   if($htmlmail eq "yes"){
+     &debug("Putting in HTML message\\r\\n") if $no_more !=1;
+     print S "MIME-Version: 1.0$CRLF";
+     print S "Content-type: MULTIPART/MIXED; BOUNDARY=\"$boundary\"$CRLF";
+     print S "--$boundary$CRLF";
+     print S "Content-type: text/html;$CRLF$CRLF";
+     print S "$message$CRLF";
+     print S "$CRLF$CRLF";
+     print S "--$boundary$CRLF";
+     print S "Content-type: TEXT/PLAIN; charset=US-ASCII$CRLF$CRLF";
+     print S "$message--$boundary--$CRLF";
+     }
+   else {
+      &debug("Putting in plain text message\\r\\n") if $no_more !=1;
+      print S "$CRLF";
+      print S "$message$CRLF";
+      }
+   &debug("I sent: .\\r\\n") if $no_more !=1;
+   print S ".$CRLF";
+   &debug("Server responded: " . read_response()) if $no_more !=1;
+   &debug("I sent: QUIT\\r\\n") if $no_more !=1;
+   print S "QUIT$CRLF";
+   &debug("Server responded: " . read_response()) if $no_more !=1;
+   &debug("Sending mail done.") if $no_more !=1;
+
+   }
+
+elsif($opsys eq "unix"){
+
+   # Allow for qmail-inject ~sigh~
+   # Most other mailer thingies do use the -t option like
+   # sendmail in order to be compatible, but apparently
+   # qmail-inject does not. Oh well...
+
+   if($path_to_sendmail !~ /qmail-inject/){
+      $path_to_sendmail = "$path_to_sendmail -t";
+      }
+
+   open(MAIL, "|$path_to_sendmail") ||
+     &debug("Could not open sendmail: $!");
+     print MAIL "To: \"$toname\" <$toemail>\n";
+     print MAIL "From: \"$fromname\" <$fromemail>\n";
+     print MAIL "X-Abuse-Identifier: $ENV{'REMOTE_ADDR'}\n";
+     if($replytoemail ne ""){
+       print MAIL "Reply-to: \"$replytoname\" <$replytoemail>\n";
+       }
+     print MAIL "Subject: $subject\n";
+     if($htmlmail eq "yes"){
+        print MAIL "MIME-Version: 1.0\n";
+        print MAIL "Content-type: MULTIPART/MIXED; BOUNDARY=\"$boundary\"\n";
+        print MAIL "--$boundary\n";
+        print MAIL "Content-type: text/html;\n\n";
+        print MAIL "$message\n";
+        print MAIL "\n\n";
+        print MAIL "--$boundary\n";
+        print MAIL "Content-type: TEXT/PLAIN; charset=US-ASCII\n\n";
+        print MAIL "$message--$boundary--\n";
+        }
+     else {
+        print MAIL "\n";
+        print MAIL "$message\n";
+        }
+     close(MAIL) || &debug("Sending mail got an error: $! $?");
+     &debug("Sending mail done.");
+   }
+
+else {
+
+   &debug("Cannot send mail. '$opsys' is not a valid operating sytem.
+           Please set \$opsys to either 'unix' or 'win' in the script
+           and try this again.");
+    }
+}
+
+# Usage: do_pop_auth(local_server_hostname,mail_server_hostname,username,pw);
+# Opens a socket connection to the pop server to do POP-before-SMTP
+# authentication.
+
+sub do_pop_auth {
+   my($this_server_hostname,$mail_server_hostname,$username,$password) = @_;
+   use Socket;
+   $port = 110;
+
+   $x_auth_header = "X-Auth-Type: POP-BEFORE-SMTP"; 
+
+   my $CRLF = "\r\n";
+   $SIG{'INT'} = 'dokill';
+   sub dokill {
+       kill 9,$child if $child;
+   }
+
+   my $proto = 6;
+
+   $this = pack_sockaddr_in(0, inet_aton($this_server_hostname));
+   $that = pack_sockaddr_in($port, inet_aton($mail_server_hostname));
+
+   if (socket(S, AF_INET, SOCK_STREAM, $proto)) {
+  	&debug("Created S socket for pop auth.");
+   }
+   else { &debug("Could not create socket for pop auth: $!"); }
+
+   if (connect(S, $that)){
+  	&debug("Connected to S socket for pop auth.");
+   }
+   else { &debug("Could not connect to socket for pop auth: $!"); }
+
+   select(S); $| = 1; select(STDOUT); $| = 1;
+
+   &debug("Server responded: " . read_response()) if $no_more !=1;
+   &debug("I sent: USER $username\\r\\n") if $no_more !=1;
+   print S "USER $username$CRLF";
+   &debug("Server responded: " . read_response()) if $no_more !=1;
+   &debug("I sent: PASS <password>\\r\\n") if $no_more !=1;
+   print S "PASS $password$CRLF";
+   &debug("Server responded: " . read_response()) if $no_more !=1;
+   if($_ !~ /OK/){ &debug("Ooops. Username/PW incorrect."); }
+   else {
+      &debug("I sent: QUIT\\r\\n") if $no_more !=1;
+      print S "QUIT$CRLF";
+      &debug("Server responded: " . read_response()) if $no_more !=1;
+      }
+   close(S) || &debug("Could not close S socket: $!\n");
+   &debug("POP before SMTP attempt complete."); 
+
+
+}
+
+# Usage: do_smtp_auth($username,$password);
+# Assumes that your socket connection to the SMTP port of the mail server
+# is already open from sub send_mail above.
+
+sub do_smtp_auth {
+   
+   my($username,$password) = @_;
+   $x_auth_header = "X-Auth-Type: SMTP-AUTH-LOGIN"; 
+
+   &debug("I sent: EHLO $this_server_hostname\\r\\n") if $no_more !=1;
+   print S "EHLO $this_server_hostname\r\n";
+   &debug("Server responded: " . read_response()) if $no_more !=1;
+   &debug("I sent: AUTH LOGIN\\r\\n") if $no_more !=1;
+   print S "AUTH LOGIN\015\012";
+   &debug("Server responded: " . read_response()) if $no_more !=1;
+   # AUTH LOGIN requires username/pw encoded in Base64. However, we don't
+   # know if the user will have the Base64 module available, so we'll do it
+   # manually.
+   $b64_u = join '', map( pack('u',$_)=~ /^.(\S*)/, ($username=~/(.{1,45})/gs));
+   $b64_u =~ tr|` -_|AA-Za-z0-9+/|;
+   &debug("I sent: '$b64_u'\\r\\n") if $no_more !=1;
+   print S "$b64_u$CRLF";
+   &debug("Server responded: " . read_response()) if $no_more !=1;
+   $b64_p= join '', map( pack('u',$_)=~ /^.(\S*)/, ($password=~/(.{1,45})/gs));
+   $b64_p=~ tr|` -_|AA-Za-z0-9+/|;
+   &debug("I sent: '$b64_p'\\r\\n") if $no_more !=1;
+   print S "$b64_p$CRLF";
+   &debug("Server responded: " . read_response()) if $no_more !=1;
+   if($_ !~ /^235/){
+	&debug("ERROR: SMTP authentication failed. Mail may not be sent.");
+	}
+   &debug("SMTP auth attempt complete."); 
+
+}
+
+# Read multi-line responses from our socket connection. Only if
+# using a Windows server for mail.
+sub read_response {
+  my ($socket_says);
+  # If we've hit a 500 error, we're not going any further, so go ahead
+  # and quit the connection. 
+  if($no_more == 1){ return; }
+  do {
+     $_ = <S>; chomp($_);
+     $socket_says .= $_ . "\n";
+     if(/^5/){ 
+  	&debug("\nERROR: Something went wrong." .  
+                  "Anything beyond this won't work. $server_says "); 
+        print S "QUIT$CRLF"; 
+        $no_more = 1;
+        }
+     } while (/^[\d]+-/);
+  $socket_says;
+}
+
+sub get_data {
+
+	use CGI qw/:standard/;
+	my $query = new CGI;
+	foreach $key ($query->param()){    
+		$data{$key} = $query->param($key);
+		}
+	
+    	%data;			# return associative array of name=value
+	}
+
+sub debug {
+   if($debugging == 1){
+      print "DEBUG: $_[0]<br>\n";
+   }
+}
