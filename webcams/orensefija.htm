@@ -1,0 +1,42 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Webcam fixa - Ourense</title>
+<script LANGUAGE="JavaScript1.1">
+function derecha(e) {
+if (navigator.appName == 'Netscape' && (e.which == 3 || e.which == 2)){
+alert('Botón inhabilitado. Disculpe')
+return false;
+}
+
+else if (navigator.appName == 'Microsoft Internet Explorer' && (event.button == 2)){
+alert('Botón inhabilitado. Disculpe.')
+}
+}
+document.onmousedown=derecha
+</script>
+</head>
+
+<body leftmargin="0" rightmargin="0" bottommargin="0" marginwidth="0" marginheight="0" topmargin="0" bgcolor="#000000">
+<div style="position: absolute; left: 2px; top: 2px; width: 640px; height: 360px; overflow: hidden; border-color: #555555; border-style: solid; border-width: 5px; border-collapse: collapse;">
+			<div style="margin-top:-4px;margin-left:-2px;">
+				<!--  WEBCAM INICIO -->	
+				<iframe src="http://www.crtvg.es/camweb/camaras.php?id=19&an=640" scrolling="no" frameborder="0" width="640" height="360" style="border-width:0"></iframe>
+				<!--  WEBCAM FIN -->
+			</div>
+		</div>
+		<div style="position: absolute; left: 4px; top: 400px; width: 450px; text-align: justify">
+			<font face="Verdana" size="1" color="#FFFFFF">C&aacute;mara web fija situada en el Seminario.<br>
+			Ofrece una 
+			panor&aacute;mica de la ciudad, atravesada por el r&iacute;o Mi&ntilde;o. Se observa el Puente del Milenio, el Puente Viejo 
+			y los dem&aacute;s puentes que permiten la conexi&oacute;n entre los dos m&aacute;rgenes del r&iacute;o.
+		</font><br><br>
+		<center>
+		<font size="2">
+			<a style="text-decoration: underline; color: #FFCC00" target="_blank" href="http://www.vinosalbarino.com">www.vinosalbarino.com</a></font>
+		</center>
+		</div>
+</body>
+
+</html>

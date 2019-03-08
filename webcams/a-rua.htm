@@ -1,0 +1,59 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Webcam - A Rúa</title>
+<script LANGUAGE="JavaScript1.1">
+function derecha(e) {
+if (navigator.appName == 'Netscape' && (e.which == 3 || e.which == 2)){
+alert('Botón inhabilitado. Disculpe')
+return false;
+}
+
+else if (navigator.appName == 'Microsoft Internet Explorer' && (event.button == 2)){
+alert('Botón inhabilitado. Disculpe.')
+}
+}
+document.onmousedown=derecha
+</script>
+</head>
+
+<body leftmargin="0" rightmargin="0" bottommargin="0" marginwidth="0" marginheight="0" topmargin="0" bgcolor="#000000">
+<div style="position: absolute; left: 2px; top: 2px; width: 380px; height: 284px; overflow: hidden; border-color: #555555; border-style: solid; border-width: 5px; border-collapse: collapse;">
+			<div style="margin-top:-4px;margin-left:-2px;">
+			
+				<SCRIPT LANGUAGE= "JavaScript" type= "text/javascript">
+				window.onerror=null
+				paxina=0;
+				if(navigator.appName.indexOf("Explorer")!=-1)paxina=1;
+				if(navigator.appName.indexOf("Opera")!=-1)paxina=2;
+				if(navigator.appVersion.indexOf("Macintosh")!=-1)paxina=0;
+				if(navigator.appName.indexOf("Netscape")!=-1)paxina=3;
+				if(paxina==0){
+				document.write('<img src="http://85.91.64.19/crtvg-arua.jpg" border="0" width="384" height="288" ALT="Descargando imaxe...">');}
+				if(paxina==2){
+				document.write('<img src="http://85.91.64.19/crtvg-arua.jpg" border="0" width="384" height="288" vspace="2" title="Descargando imaxe..."><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>pulse &#147;recargar&#148; para actualizar a imaxe');}
+				if(paxina==3){
+				document.write('<img src="http://85.91.64.19/crtvg-arua.jpg" border="0" width="384" height="288" vspace="2" title="Descargando imaxe...">');}
+				</script>
+				<object id="Camera" classid="CLSID:C1BAC744-8F0B-11D0-89E7-00C0A8295197" codebase="camera.cab#Version=2,0,0,0" align="middle" border="0" vspace="0" width="384" height="288" standby="Downloading ActiveX Camera Control">
+				<param name="URL" value="http://85.91.64.19/crtvg-arua.jpg">
+				<param name="Debug" value="1">
+				<param name="Refresh" value="5">
+				</object>
+			
+			</div>
+		</div>
+		<div style="position: absolute; left: 4px; top: 300px; width: 374px; text-align: justify">
+			<font face="Verdana" size="1" color="#FFFFFF">C&aacute;mara web situada en el Hostal Berna, junto a la 
+			carretera N-120. Desde esta localizaci&oacute;n se puede ver la villa de la R&uacute;a, el complejo recreativo de 
+			Aguill&oacute;n y el embalse de San Marti&ntilde;o.
+		</font><br><br>
+		<center>
+		<font size="2">
+			<a style="text-decoration: underline; color: #FFCC00" target="_blank" href="http://www.vinosalbarino.com">www.vinosalbarino.com</a></font>
+		</center>
+		</div>
+</body>
+
+</html>
