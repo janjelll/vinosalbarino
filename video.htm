@@ -1,0 +1,41 @@
+<HTML><HEAD><TITLE>www.vinosalbarino.com</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="Curso de Cata." name=description>
+<META content="curso de cata" name=keywords>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<script type="text/javascript" src="swfobject.js"></script>
+<script type="text/javascript">
+	swfobject.registerObject("player","9.0.98","expressInstall.swf");
+</script>
+<script LANGUAGE="JavaScript1.1" type="text/javascript">
+function derecha(e) {
+if (navigator.appName == 'Netscape' && (e.which == 3 || e.which == 2)){
+alert('Botón derecho inhabilitado')
+return false;
+}
+
+else if (navigator.appName == 'Microsoft Internet Explorer' && (event.button == 2)){
+alert('Botón inhabilitado. Disculpe.')
+}
+}
+document.onmousedown=derecha
+</script>
+<link rel="shortcut icon" href="http://www.vinosalbarino.com/favicon.ico">
+</HEAD>
+<BODY bgColor=#1d2e68 style="margin: 0">
+	<!-- START OF THE PLAYER EMBEDDING TO COPY-PASTE -->
+	<object id="player" name="player" width="640" height="480">
+		<param name="movie" value="player.swf" />
+		<param name="allowfullscreen" value="true" />
+		<param name="allowscriptaccess" value="always" />
+		<param name="flashvars" value="file=http://www.vinosalbarino.com/cata.flv&autostart=true" />
+		<object type="application/x-shockwave-flash" data="player.swf" width="640" height="480">
+			<param name="movie" value="player.swf" />
+			<param name="allowfullscreen" value="true" />
+			<param name="allowscriptaccess" value="always" />
+			<param name="flashvars" value="file=http://www.vinosalbarino.com/cata.flv&autostart=true" />
+			<p><a href="http://get.adobe.com/flashplayer">Get Flash</a> to see this player.</p>
+		</object>
+	</object>
+	<!-- END OF THE PLAYER EMBEDDING -->
+</BODY></HTML>
