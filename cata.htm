@@ -1,4 +1,6 @@
-<HTML><HEAD><TITLE>www.vinosalbarino.com</TITLE>
+<!DOCTYPE html>
+<HTML><HEAD><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<TITLE>www.vinosalbarino.com</TITLE>
 <META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
 <META content="Curso de Cata." name=description>
 <META content="curso de cata" name=keywords>
@@ -24,11 +26,18 @@ document.onmousedown=derecha
 </HEAD>
 <BODY bgColor=#1d2e68 style="margin: 0">
 	<!-- START OF THE PLAYER EMBEDDING TO COPY-PASTE -->
-	<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="545" height="451">
-<param name="movie" value="http://www.vinosalbarino.com/cata.flv" />
-<param name="allowScriptAccess" value="always" />
-<param name="allowFullScreen" value="true" />
-<embed src="http://www.vinosalbarino.com/cata.flv" width="545" height="451" type="application/x-shockwave-flash" allowScriptAccess="always" allowFullScreen="true"" ></embed></object>
+	<object id="player" name="player" width="545" height="451">
+		<param name="movie" value="player.swf" />
+		<param name="allowfullscreen" value="true" />
+		<param name="allowscriptaccess" value="always" />
+		<param name="flashvars" value="file=http://www.vinosalbarino.com/cata.flv&autostart=true" />
+		<object type="application/x-shockwave-flash" data="player.swf" width="545" height="451">
+			<param name="movie" value="player.swf" />
+			<param name="allowfullscreen" value="true" />
+			<param name="allowscriptaccess" value="always" />
+			<param name="flashvars" value="file=http://www.vinosalbarino.com/cata.flv&autostart=true" />
+			<p><a href="http://get.adobe.com/flashplayer">Get Flash</a> to see this player.</p>
+		</object>
 	</object>
 	<!-- END OF THE PLAYER EMBEDDING -->
 </BODY></HTML>
