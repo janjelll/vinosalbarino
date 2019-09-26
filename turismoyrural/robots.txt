@@ -1,4 +1,4 @@
-Sitemap: http://www.turismoyrural.com/sitemap.xml
+Sitemap: https://vinosalbarino.com/turismoyrural/sitemap.xml
 
 User-agent: *
 Disallow:
