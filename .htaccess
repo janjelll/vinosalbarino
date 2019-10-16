@@ -14,4 +14,5 @@ deny from all
 AuthName vinosalbarino.com
 AuthUserFile /home2/vinosalb/public_html/_vti_pvt/service.pwd
 AuthGroupFile /home2/vinosalb/public_html/_vti_pvt/service.grp
+RewriteEngine on
 RedirectPermanent https://vinosalbarino.com/webcams.htm http://www.crtvg.es/crtvg/camaras-web
